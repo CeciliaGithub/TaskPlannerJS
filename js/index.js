@@ -17,7 +17,7 @@ function drawPieChart() {
     const statusProgress = taskManager.countTaskByStatus("In progress");
     const taskNumber = taskManager.taskCount();
     if (taskNumber == 0) {
-      document.getElementById("piechart").style.display = none;
+      document.getElementById("piechart").style.display = "none";
     }
     //alert(statusProgress);
     var data = google.visualization.arrayToDataTable([
@@ -304,11 +304,17 @@ function changefunction() {
   var selectBox = document.getElementById("selectBox");
   var selectedValue = selectBox.options[selectBox.selectedIndex].value;
   const tasks = taskManager.getTaskByStatus(selectedValue);
-  if (selectedValue == "All") {
+  if (selectedValue == "All" || selectedValue == "filter") {
     taskManager.render();
+    document.getElementById("piechart").style.display = "block";
   } else {
     renderByStatus(tasks);
+    document.getElementById("piechart").style.display = "none";
   }
+  const taskNumber = taskManager.taskCount();
+   if (taskNumber == 0) {
+     document.getElementById("piechart").style.display = "none";
+   }
 }
 function renderByStatus(tasks) {
   const tasksHtmlList = [];
